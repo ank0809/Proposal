@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine? 👑💘</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============================= */
+/* BODY */
+/* ============================= */
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Sacramento', cursive;
+  background: linear-gradient(135deg, #ff4d6d, #ff758f, #ff8fab, #ffc2d1);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================= */
+/* MAIN CONTAINER */
+/* ============================= */
+
+.container {
+  background: rgba(255,255,255,0.25);
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+}
+
+h1 {
+  color: white;
+  font-size: 3em;
+  animation: heartbeat 1.4s infinite;
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+p {
+  color: #fff;
+  font-size: 1.6em;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 14px 30px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  color: white;
+  margin: 10px;
+  transition: 0.3s;
+}
+
+#yesBtn { background: #ff006e; }
+#noBtn { background: #999; }
+#muteBtn { background: #ff7eb9; font-size: 1em; padding: 8px 15px; }
+
+button:hover { transform: scale(1.1); }
+
+/* ============================= */
+/* POPUPS */
+/* ============================= */
+
+#popup, #popup2 {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 35px;
+  border-radius: 25px;
+  text-align: center;
+  width: 85%;
+  max-width: 420px;
+  z-index: 150;
+  border: 3px solid white;
+  animation: popupGlow 2s infinite alternate;
+}
+
+#popup {
+  background: linear-gradient(135deg, #ff006e, #ff4d6d, #ff8fab);
+  box-shadow: 0 0 30px rgba(255, 0, 110, 0.8);
+}
+
+#popup2 {
+  background: linear-gradient(135deg, #ff4d6d, #ff8fab, #ffc2d1);
+  box-shadow: 0 0 40px rgba(255, 105, 180, 0.9);
+}
+
+@keyframes popupGlow {
+  from { box-shadow: 0 0 20px #ff4d6d; }
+  to { box-shadow: 0 0 40px #ff006e; }
+}
+
+#typedText, #typedText2 {
+  font-size: 1.2em;
+  color: white;
+  min-height: 160px;
+  white-space: pre-line;
+}
+
+#closeBtn { background: #ff7eb9; margin-top: 20px; }
+#finalCloseBtn { background: #ff006e; margin-top: 20px; }
+
+/* ============================= */
+/* FLASH */
+/* ============================= */
+
+#flash {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:white;
+  opacity:0;
+  pointer-events:none;
+  z-index:200;
+}
+
+.flash-animate {
+  animation: flashEffect 0.4s ease-out;
+}
+
+@keyframes flashEffect {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}
+
+/* ============================= */
+/* FINAL UNIVERSE */
+/* ============================= */
+
+#finalUniverse {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffd6e0, #ff8fab, #ff4d6d);
+  z-index: 500;
+  overflow: hidden;
+  text-align: center;
+}
+
+#finalUniverse h2 {
+  margin-top: 40vh;
+  font-size: 2.8em;
+  color: white;
+  text-shadow: 0 0 25px #ff006e;
+}
+
+.universe-heart {
+  position: absolute;
+  font-size: 26px;
+  animation: floatUniverse 4s linear forwards;
+}
+
+@keyframes floatUniverse {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+
+canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
+
+</style>
+</head>
+
+<body>
+
+<div id="flash"></div>
+
+<audio id="bgMusic" loop>
+  <source src="https://raw.githubusercontent.com/ank0809/Rose-day/db84e1f74fdef01c0b62ff2576ba8055b5e57e6e/Mere%20Naam%20Tu%20Instrumental%20Ringtone%20Download%20Pagalworld%20(mp3cut.net).mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <h1>Happy Valentine’s Day 👑❤️</h1>
+  <p>Will you be my Valentine, My Princess? 💘</p>
+  <button id="yesBtn">Yes 💕</button>
+  <button id="noBtn">No 🙈</button><br>
+  <button id="muteBtn">Mute/Unmute 🎵</button>
+</div>
+
+<div id="popup">
+  <h2>woohooo.....🫠😚</h2>
+  <div id="typedText"></div>
+  <button id="closeBtn">Need your touch💕</button>
+</div>
+
+<div id="popup2">
+  <h2>Forever Begins Here 💍✨</h2>
+  <div id="typedText2"></div>
+  <button id="finalCloseBtn">One more time 🫠</button>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<div id="finalUniverse">
+  <h2>I’ll choose you in every universe 💓💫</h2>
+</div>
+
+<script>
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const popup = document.getElementById("popup");
+const popup2 = document.getElementById("popup2");
+const typedText = document.getElementById("typedText");
+const typedText2 = document.getElementById("typedText2");
+const bgMusic = document.getElementById("bgMusic");
+const muteBtn = document.getElementById("muteBtn");
+const flash = document.getElementById("flash");
+
+const message = `Queenieee 👑💖
+
+From the moment you came into my life,
+everything became softer and brighter ✨
+
+You don’t just look beautiful…
+you carry grace in your smile,
+magic in your eyes,
+and peace in your presence 🤍
+
+You deserve flowers without reason 🌹
+forehead kisses without asking 💋
+and a love that feels safe and royal.
+
+Being your Valentine
+is not just a day…
+it’s an honor 👑💘
+
+And I will keep choosing you —
+today,
+tomorrow,
+and always 🤍`;
+
+const message2 = `Thank you for everything, my love…
+
+I promise you —
+no matter what situation comes,
+I will never leave you.
+
+I will never let you feel alone.
+Even on your darkest days,
+I will stand beside you.
+
+I will care for you.
+Support you.
+Respect your heart.
+
+We will grow together,
+win together,
+and build a future filled with success
+and great fortune 💍✨
+
+Forever yours ❤️`;
+
+document.body.addEventListener("click", () => {
+  bgMusic.play().catch(()=>{});
+}, { once: true });
+
+muteBtn.onclick = () => {
+  bgMusic.muted = !bgMusic.muted;
+};
+
+yesBtn.onclick = openPopup;
+
+const noMessages = [
+  "Are you sure? 🥺",
+  "Think again 💭",
+  "Don’t break my heart 💔",
+  "I’ll be sad 😞",
+  "Really really sure? 😶",
+  "Okay but… why 😢",
+  "Think again 💭",
+  "That click hurt a little 💔",
+  "Please reconsider 😞",
+  "I’ll wait 😐",
+  "Still no? 😶",
+  "Fine… only YES remains 💖"
+];
+
+let noClickCount = 0;
+
+noBtn.onclick = () => {
+
+  if (noClickCount < noMessages.length - 1) {
+    noBtn.textContent = noMessages[noClickCount];
+    noClickCount++;
+
+    yesBtn.style.transform = `scale(${1 + noClickCount * 0.1})`;
+
+  } else {
+    noBtn.textContent = "Yes 💖";
+    noBtn.style.background = "#ff006e";
+    noBtn.onclick = openPopup;
+  }
+
+};
+
+function openPopup() {
+  flash.classList.add("flash-animate");
+  setTimeout(()=> flash.classList.remove("flash-animate"),400);
+
+  popup.style.display = "block";
+  startTyping(message, typedText);
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+}
+
+function startTyping(text, element) {
+  element.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    element.textContent += text[i];
+    i++;
+    if (i >= text.length) clearInterval(interval);
+  }, 40);
+}
+
+document.getElementById("closeBtn").onclick = () => {
+  popup.style.display = "none";
+  popup2.style.display = "block";
+  startTyping(message2, typedText2);
+};
+
+document.getElementById("finalCloseBtn").onclick = () => {
+  popup2.style.display = "none";
+  openUniversePage();
+};
+
+/* Confetti */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+function openUniversePage() {
+  const universe = document.getElementById("finalUniverse");
+  universe.style.display = "block";
+
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "universe-heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = window.innerHeight + "px";
+    universe.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }, 300);
+}
+
+</script>
+
+</body>
+</html>

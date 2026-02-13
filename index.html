@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine? 💘</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff4d6d, #ff8fab);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+}
+
+@keyframes gradientMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+.container {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(15px);
+  padding: 40px 30px;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 420px;
+  animation: pop 1s ease;
+}
+
+@keyframes pop {
+  from {transform: scale(0.8); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+
+h1 {
+  font-family: 'Sacramento', cursive;
+  font-size: 2.8em;
+}
+
+.buttons {
+  margin-top: 25px;
+}
+
+button {
+  padding: 12px 28px;
+  margin: 10px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#yesBtn {
+  background: #ff1f4b;
+  color: white;
+}
+
+#noBtn {
+  background: white;
+  color: #ff1f4b;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+/* Popup */
+#popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.popup-box {
+  background: white;
+  color: #333;
+  padding: 30px;
+  border-radius: 20px;
+  width: 85%;
+  max-width: 380px;
+  animation: heartbeat 1.5s infinite;
+  box-shadow: 0 0 25px rgba(255,0,85,0.6);
+}
+
+@keyframes heartbeat {
+  0%,100% {transform: scale(1);}
+  50% {transform: scale(1.05);}
+}
+
+.popup-box h2 {
+  font-family: 'Sacramento', cursive;
+  font-size: 2.2em;
+  color: #ff1f4b;
+}
+
+/* Floating Hearts */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  from {transform: translateY(100vh); opacity: 1;}
+  to {transform: translateY(-10vh); opacity: 0;}
+}
+
+/* Music Button */
+.music-btn {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  padding: 12px 14px;
+  font-size: 18px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 YOUR ORIGINAL SONG -->
+<audio id="bgMusic" loop>
+  <source src="https://raw.githubusercontent.com/ank0809/Promise_day/57bb3e08d6e2600e044171ab6b5bdae047c5f393/Haathon_ko_tere_Apne_haton_mein_me_le_leta%F0%9F%8D%81Meherbaan%F0%9F%8D%81Ash_King%F0%9F%8D%81Shilpa_R_%F0%9F%8D%81Shekhar_R_song_by_Prateek_H_320k%20(mp3cut.net).mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <h1 id="question">Will you be my Valentine? 💘</h1>
+  <div class="buttons">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 🙈</button>
+  </div>
+</div>
+
+<div id="popup">
+  <div class="popup-box">
+    <h2>She Said YES 💕</h2>
+    <p>
+      You are the cutest girl in this universe 🥹💖<br><br>
+      Your smile can melt my heart instantly ☀️<br>
+      Your eyes shine brighter than the stars ✨<br>
+      Your laugh is my favorite melody 🎶<br><br>
+      You are not just pretty...  
+      you are magical 💞  
+      And I’m the luckiest person because of YOU 💘
+    </p>
+    <button onclick="closePopup()" style="background:#ff1f4b;color:white;">Close 💗</button>
+  </div>
+</div>
+
+<div class="music-btn" id="musicBtn">🎵</div>
+
+<script>
+
+/* 🎵 MUSIC SYSTEM (FROM YOUR OLD CODE) */
+const bgMusic = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+document.body.addEventListener("click", () => {
+  bgMusic.play().catch(()=>{});
+}, { once: true });
+
+musicBtn.onclick = () => {
+  if(bgMusic.paused){
+    bgMusic.play();
+    musicBtn.textContent="🔊";
+  } else {
+    bgMusic.pause();
+    musicBtn.textContent="🔇";
+  }
+};
+
+/* Valentine Logic */
+let noCount = 0;
+
+const noMessages = [
+  "Are you sure? 🥺",
+  "Really sure? 😢",
+  "Think again cutie 💕",
+  "You can't say no to this face 😌",
+  "Okay fine... destiny says YES 💖"
+];
+
+const question = document.getElementById("question");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const popup = document.getElementById("popup");
+
+noBtn.addEventListener("click", () => {
+  if(noCount < 5){
+    question.innerText = noMessages[noCount];
+    noCount++;
+  }
+
+  if(noCount === 5){
+    noBtn.innerText = "Yes 💖";
+    noBtn.style.background = "#ff1f4b";
+    noBtn.style.color = "white";
+    noBtn.onclick = openPopup;
+  }
+});
+
+yesBtn.addEventListener("click", openPopup);
+
+function openPopup(){
+  popup.style.display = "flex";
+  heartBurst();
+}
+
+function closePopup(){
+  popup.style.display = "none";
+}
+
+/* Heart Burst */
+function heartBurst(){
+  for(let i=0;i<25;i++){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerText="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=3+Math.random()*3+"s";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  }
+}
+
+/* Floating Hearts */
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerText="💗";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=4+Math.random()*3+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),7000);
+},500);
+
+</script>
+
+</body>
+</html>

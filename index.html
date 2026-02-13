@@ -3,258 +3,306 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine? 💘</title>
+<title>Will You Be My Valentine? 👑💘</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
 
 <style>
 body {
   margin: 0;
   height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff4d6d, #ff8fab);
+  font-family: 'Sacramento', cursive;
+  background: linear-gradient(135deg, #ff4d6d, #ff758f, #ff8fab, #ffc2d1);
   background-size: 400% 400%;
-  animation: gradientMove 10s ease infinite;
+  animation: gradientMove 12s ease infinite;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  text-align: center;
-  color: white;
 }
 
 @keyframes gradientMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .container {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.25);
   padding: 40px 30px;
-  border-radius: 25px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  width: 90%;
-  max-width: 420px;
-  animation: pop 1s ease;
-}
-
-@keyframes pop {
-  from {transform: scale(0.8); opacity: 0;}
-  to {transform: scale(1); opacity: 1;}
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
 }
 
 h1 {
-  font-family: 'Sacramento', cursive;
-  font-size: 2.8em;
-}
-
-.buttons {
-  margin-top: 25px;
-}
-
-button {
-  padding: 12px 28px;
-  margin: 10px;
-  border-radius: 50px;
-  border: none;
-  font-size: 1em;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#yesBtn {
-  background: #ff1f4b;
   color: white;
-}
-
-#noBtn {
-  background: white;
-  color: #ff1f4b;
-}
-
-button:hover {
-  transform: scale(1.1);
-}
-
-/* Popup */
-#popup {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-
-.popup-box {
-  background: white;
-  color: #333;
-  padding: 30px;
-  border-radius: 20px;
-  width: 85%;
-  max-width: 380px;
-  animation: heartbeat 1.5s infinite;
-  box-shadow: 0 0 25px rgba(255,0,85,0.6);
+  font-size: 3em;
+  animation: heartbeat 1.4s infinite;
 }
 
 @keyframes heartbeat {
-  0%,100% {transform: scale(1);}
-  50% {transform: scale(1.05);}
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
 }
 
-.popup-box h2 {
-  font-family: 'Sacramento', cursive;
+p {
+  color: #fff;
+  font-size: 1.6em;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 14px 30px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  color: white;
+  margin: 10px;
+  transition: 0.3s;
+}
+
+#yesBtn { background: #ff006e; }
+#noBtn { background: #999; }
+#muteBtn { background: #ff7eb9; font-size: 1em; padding: 8px 15px; }
+
+button:hover { transform: scale(1.1); }
+
+#popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 35px;
+  border-radius: 20px;
+  text-align: center;
+  width: 85%;
+  max-width: 400px;
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+#popup h2 {
+  color: #ff006e;
   font-size: 2.2em;
-  color: #ff1f4b;
+  margin-bottom: 15px;
 }
 
-/* Floating Hearts */
+#typedText {
+  font-size: 1.2em;
+  color: #333;
+  min-height: 140px;
+  white-space: pre-line;
+}
+
+#closeBtn { background: #ff7eb9; margin-top: 20px; }
+
+canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
+
 .heart {
   position: absolute;
-  font-size: 20px;
-  animation: float 6s linear infinite;
+  width: 12px;
+  height: 12px;
+  background: red;
+  transform: rotate(-45deg);
+  animation: float 4s linear infinite;
 }
+
+.heart::before, .heart::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.heart::before { top: -6px; }
+.heart::after { left: 6px; }
 
 @keyframes float {
-  from {transform: translateY(100vh); opacity: 1;}
-  to {transform: translateY(-10vh); opacity: 0;}
+  from { transform: translateY(0) rotate(-45deg); opacity: 1; }
+  to { transform: translateY(-500px) rotate(-45deg); opacity: 0; }
 }
 
-/* Music Button */
-.music-btn {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  background: rgba(255,255,255,0.2);
+/* ✨ Golden Sparkles */
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: gold;
   border-radius: 50%;
-  padding: 12px 14px;
-  font-size: 18px;
-  cursor: pointer;
+  box-shadow: 0 0 10px gold;
+  animation: sparkleFall linear infinite;
+}
+
+@keyframes sparkleFall {
+  from { transform: translateY(-10px); opacity: 1; }
+  to { transform: translateY(100vh); opacity: 0; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- 🎵 YOUR ORIGINAL SONG -->
 <audio id="bgMusic" loop>
-  <source src="https://raw.githubusercontent.com/ank0809/Promise_day/57bb3e08d6e2600e044171ab6b5bdae047c5f393/Haathon_ko_tere_Apne_haton_mein_me_le_leta%F0%9F%8D%81Meherbaan%F0%9F%8D%81Ash_King%F0%9F%8D%81Shilpa_R_%F0%9F%8D%81Shekhar_R_song_by_Prateek_H_320k%20(mp3cut.net).mp3" type="audio/mpeg">
+  <source src="https://raw.githubusercontent.com/ank0809/Rose-day/db84e1f74fdef01c0b62ff2576ba8055b5e57e6e/Mere%20Naam%20Tu%20Instrumental%20Ringtone%20Download%20Pagalworld%20(mp3cut.net).mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
-  <h1 id="question">Will you be my Valentine? 💘</h1>
-  <div class="buttons">
-    <button id="yesBtn">Yes 💖</button>
-    <button id="noBtn">No 🙈</button>
-  </div>
+  <h1>Happy Valentine’s Day 👑❤️</h1>
+  <p id="mainText">Will you be my Valentine, My Princess? 💘</p>
+  <button id="yesBtn">Yes 💕</button>
+  <button id="noBtn">No 🙈</button><br>
+  <button id="muteBtn">Mute/Unmute 🎵</button>
 </div>
 
 <div id="popup">
-  <div class="popup-box">
-    <h2>She Said YES 💕</h2>
-    <p>
-      You are the cutest girl in this universe 🥹💖<br><br>
-      Your smile can melt my heart instantly ☀️<br>
-      Your eyes shine brighter than the stars ✨<br>
-      Your laugh is my favorite melody 🎶<br><br>
-      You are not just pretty...  
-      you are magical 💞  
-      And I’m the luckiest person because of YOU 💘
-    </p>
-    <button onclick="closePopup()" style="background:#ff1f4b;color:white;">Close 💗</button>
-  </div>
+  <h2>She Said YES 👑💖</h2>
+  <div id="typedText"></div>
+  <button id="closeBtn">Forever Yours ❤️</button>
 </div>
 
-<div class="music-btn" id="musicBtn">🎵</div>
+<canvas id="confetti"></canvas>
 
 <script>
-
-/* 🎵 MUSIC SYSTEM (FROM YOUR OLD CODE) */
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const popup = document.getElementById("popup");
+const typedText = document.getElementById("typedText");
 const bgMusic = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
+const muteBtn = document.getElementById("muteBtn");
+const mainText = document.getElementById("mainText");
+
+const noMessages = [
+  "Are you sure? 🥺",
+  "Really sure? 👀",
+  "Think again Princess 👑",
+  "You deserve royal love 💖",
+  "Only YES suits a Queen 👑"
+];
+
+let clickCount = 0;
+
+const message =
+`My Princess 👑💖
+
+From the moment you came into my life,
+everything became softer and brighter ✨
+
+You don’t just look beautiful…
+you carry grace in your smile,
+magic in your eyes,
+and peace in your presence 🤍
+
+You deserve flowers without reason 🌹
+forehead kisses without asking 💋
+and a love that feels safe and royal.
+
+Being your Valentine
+is not just a day…
+it’s an honor 👑💘
+
+And I will keep choosing you —
+today,
+tomorrow,
+and always 🤍`;
 
 document.body.addEventListener("click", () => {
   bgMusic.play().catch(()=>{});
 }, { once: true });
 
-musicBtn.onclick = () => {
-  if(bgMusic.paused){
-    bgMusic.play();
-    musicBtn.textContent="🔊";
+muteBtn.onclick = () => {
+  bgMusic.muted = !bgMusic.muted;
+  muteBtn.textContent = bgMusic.muted ? "Unmute 🎵" : "Mute 🎵";
+};
+
+yesBtn.onclick = openPopup;
+
+noBtn.onclick = () => {
+  if (clickCount < noMessages.length - 1) {
+    noBtn.textContent = noMessages[clickCount];
+    clickCount++;
   } else {
-    bgMusic.pause();
-    musicBtn.textContent="🔇";
+    noBtn.textContent = "Yes 👑💖";
+    noBtn.style.background = "#ff006e";
+    noBtn.onclick = openPopup;
   }
 };
 
-/* Valentine Logic */
-let noCount = 0;
-
-const noMessages = [
-  "Are you sure? 🥺",
-  "Really sure? 😢",
-  "Think again cutie 💕",
-  "You can't say no to this face 😌",
-  "Okay fine... destiny says YES 💖"
-];
-
-const question = document.getElementById("question");
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const popup = document.getElementById("popup");
-
-noBtn.addEventListener("click", () => {
-  if(noCount < 5){
-    question.innerText = noMessages[noCount];
-    noCount++;
-  }
-
-  if(noCount === 5){
-    noBtn.innerText = "Yes 💖";
-    noBtn.style.background = "#ff1f4b";
-    noBtn.style.color = "white";
-    noBtn.onclick = openPopup;
-  }
-});
-
-yesBtn.addEventListener("click", openPopup);
-
-function openPopup(){
-  popup.style.display = "flex";
-  heartBurst();
+function openPopup() {
+  popup.style.display = "block";
+  startTyping();
+  startConfetti();
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
 }
 
-function closePopup(){
+function startTyping() {
+  typedText.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    typedText.textContent += message[i];
+    i++;
+    if (i >= message.length) clearInterval(interval);
+  }, 40);
+}
+
+document.getElementById("closeBtn").onclick = () => {
   popup.style.display = "none";
+};
+
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let confetti = [];
+
+function startConfetti() {
+  confetti = Array.from({length: 120}, () => ({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*5+2,
+    d: Math.random()*5,
+    c: `hsl(${Math.random()*360},100%,50%)`
+  }));
+  drawConfetti();
 }
 
-/* Heart Burst */
-function heartBurst(){
-  for(let i=0;i<25;i++){
-    const heart=document.createElement("div");
-    heart.className="heart";
-    heart.innerText="💖";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.animationDuration=3+Math.random()*3+"s";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),5000);
-  }
+function drawConfetti() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = p.c;
+    ctx.fill();
+    p.y += p.d;
+    if(p.y>canvas.height) p.y=0;
+  });
+  requestAnimationFrame(drawConfetti);
 }
 
-/* Floating Hearts */
-setInterval(()=>{
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.innerText="💗";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.animationDuration=4+Math.random()*3+"s";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),7000);
-},500);
+/* Floating hearts */
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.style.left = Math.random()*window.innerWidth+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+},300);
+
+/* Golden Sparkles */
+setInterval(() => {
+  const s = document.createElement("div");
+  s.className = "sparkle";
+  s.style.left = Math.random()*window.innerWidth+"px";
+  s.style.animationDuration = 5 + Math.random()*5 + "s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),10000);
+},400);
 
 </script>
 

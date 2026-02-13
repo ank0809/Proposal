@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -95,7 +95,7 @@ button:hover { transform: scale(1.1); }
 }
 
 #popup h2 { color: white; font-size: 2.2em; }
-#typedText { font-size: 1.2em; color: white; min-height: 140px; white-space: pre-line; }
+#typedText { font-size: 1.2em; color: white; min-height: 160px; white-space: pre-line; }
 #closeBtn { background: #ff7eb9; margin-top: 20px; }
 
 /* Screen Flash */
@@ -133,6 +133,51 @@ button:hover { transform: scale(1.1); }
   100% { transform: translate(var(--x), var(--y)) scale(0.5); opacity:0; }
 }
 
+/* Floating Hearts */
+.heart {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: hotpink;
+  transform: rotate(-45deg);
+  animation: float 4s linear infinite;
+  box-shadow: 0 0 15px hotpink;
+}
+
+.heart::before, .heart::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  background: hotpink;
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 0 0 15px hotpink;
+}
+
+.heart::before { top: -7px; }
+.heart::after { left: 7px; }
+
+@keyframes float {
+  from { transform: translateY(0) rotate(-45deg); opacity: 1; }
+  to { transform: translateY(-500px) rotate(-45deg); opacity: 0; }
+}
+
+/* Golden Sparkles */
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: gold;
+  border-radius: 50%;
+  box-shadow: 0 0 10px gold;
+  animation: sparkleFall linear infinite;
+}
+
+@keyframes sparkleFall {
+  from { transform: translateY(-10px); opacity: 1; }
+  to { transform: translateY(100vh); opacity: 0; }
+}
+
 canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
 </style>
 </head>
@@ -144,7 +189,6 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
   <source src="https://raw.githubusercontent.com/ank0809/Rose-day/db84e1f74fdef01c0b62ff2576ba8055b5e57e6e/Mere%20Naam%20Tu%20Instrumental%20Ringtone%20Download%20Pagalworld%20(mp3cut.net).mp3" type="audio/mpeg">
 </audio>
 
-<!-- Firework Sound -->
 <audio id="fireworkSound">
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9b48f5e61c.mp3?filename=firework-explosion-9974.mp3" type="audio/mpeg">
 </audio>
@@ -175,6 +219,39 @@ const fireworkSound = document.getElementById("fireworkSound");
 const muteBtn = document.getElementById("muteBtn");
 const flash = document.getElementById("flash");
 
+const noMessages = [
+  "Are you sure? 🥺",
+  "Really sure? 👀",
+  "Think again Princess 👑",
+  "You deserve royal love 💖",
+  "Only YES suits a Queen 👑"
+];
+
+let clickCount = 0;
+
+const message = `My Princess 👑💖
+
+From the moment you came into my life,
+everything became softer and brighter ✨
+
+You don’t just look beautiful…
+you carry grace in your smile,
+magic in your eyes,
+and peace in your presence 🤍
+
+You deserve flowers without reason 🌹
+forehead kisses without asking 💋
+and a love that feels safe and royal.
+
+Being your Valentine
+is not just a day…
+it’s an honor 👑💘
+
+And I will keep choosing you —
+today,
+tomorrow,
+and always 🤍`;
+
 document.body.addEventListener("click", () => {
   bgMusic.play().catch(()=>{});
 }, { once: true });
@@ -186,13 +263,21 @@ muteBtn.onclick = () => {
 
 yesBtn.onclick = openPopup;
 
-function openPopup() {
+noBtn.onclick = () => {
+  if (clickCount < noMessages.length - 1) {
+    noBtn.textContent = noMessages[clickCount];
+    clickCount++;
+  } else {
+    noBtn.textContent = "Yes 👑💖";
+    noBtn.style.background = "#ff006e";
+    noBtn.onclick = openPopup;
+  }
+};
 
-  // SCREEN FLASH
+function openPopup() {
   flash.classList.add("flash-animate");
   setTimeout(()=> flash.classList.remove("flash-animate"),400);
 
-  // FIREWORK SOUND
   fireworkSound.currentTime = 0;
   fireworkSound.play();
 
@@ -201,9 +286,25 @@ function openPopup() {
   }, 200);
 
   popup.style.display = "block";
+  startTyping();
+  startConfetti();
   yesBtn.style.display = "none";
   noBtn.style.display = "none";
 }
+
+function startTyping() {
+  typedText.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    typedText.textContent += message[i];
+    i++;
+    if (i >= message.length) clearInterval(interval);
+  }, 40);
+}
+
+document.getElementById("closeBtn").onclick = () => {
+  popup.style.display = "none";
+};
 
 function heartFireworkExplosion() {
   const centerX = window.innerWidth / 2;
@@ -226,7 +327,57 @@ function heartFireworkExplosion() {
     setTimeout(() => heart.remove(), 1200);
   }
 }
-</script>
 
+/* Confetti */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let confetti = [];
+
+function startConfetti() {
+  confetti = Array.from({length: 120}, () => ({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*5+2,
+    d: Math.random()*5,
+    c: `hsl(${Math.random()*360},100%,50%)`
+  }));
+  drawConfetti();
+}
+
+function drawConfetti() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = p.c;
+    ctx.fill();
+    p.y += p.d;
+    if(p.y>canvas.height) p.y=0;
+  });
+  requestAnimationFrame(drawConfetti);
+}
+
+/* Floating hearts */
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.style.left = Math.random()*window.innerWidth+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+},300);
+
+/* Golden Sparkles */
+setInterval(() => {
+  const s = document.createElement("div");
+  s.className = "sparkle";
+  s.style.left = Math.random()*window.innerWidth+"px";
+  s.style.animationDuration = 5 + Math.random()*5 + "s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),10000);
+},400);
+
+</script>
 </body>
 </html>
